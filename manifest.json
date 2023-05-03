@@ -5,6 +5,10 @@
     "version": "2.6.116",
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["main.js"]
+        "js": [
+            "images.js",
+            "commands.js",
+            "setup.js"
+        ]
     }]
-  }
+}
