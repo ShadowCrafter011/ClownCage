@@ -10,5 +10,8 @@
             "commands.js",
             "setup.js"
         ]
-    }]
+    }],
+    "permissions": [
+        "storage"
+    ]
 }
