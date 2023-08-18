@@ -47,22 +47,6 @@ socket.onmessage = async event => {
 };
 
 
-function ping(uuid) {
-    const ping_request = {
-        command: "message",
-        identifier: JSON.stringify({
-            channel: "ConsumerChannel"
-        }),
-        data: JSON.stringify({
-            action: "ping",
-            uuid: uuid,
-            active: !document.hidden
-        })
-    }
-    socket.send(JSON.stringify(ping_request));
-}
-
-
 function identify(uuid) {
     // Fail safe incase uuid somehow is null
     if (!uuid) return;
@@ -78,8 +62,4 @@ function identify(uuid) {
         })
     }
     socket.send(JSON.stringify(identify_request));
-
-    // Start sending pings to the server to update online status
-    ping(uuid);
-    setInterval(() => ping(uuid), 5000);
 }
