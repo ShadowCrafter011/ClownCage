@@ -36,12 +36,15 @@ socket.onmessage = async event => {
     const data = JSON.parse(event.data);
     if (data.type == "ping") return;
     const message = data.message;
-    if (message == null) return;
+    if (!message) return;
 
     switch (message.type) {
         case "uuid_payload":
             await chrome.storage.sync.set({ uuid: message.uuid });
             identify(message.uuid);
+            break;
+
+        default:
             break;
     }
 };

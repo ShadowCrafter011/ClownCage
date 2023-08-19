@@ -17,6 +17,16 @@ socket.onopen = () => {
     ping();
 };
 
+socket.onmessage = async event => {
+    const data = JSON.parse(event.data);
+    if (data.type == "ping") return;
+    const message = data.message;
+    if (!message) return;
+    if (message.type != "change_uuid") return;
+
+    await chrome.storage.sync.set({ uuid: message.uuid });
+};
+
 function ping() {
     if (socket) ping_core();
 
