@@ -1,68 +1,47 @@
-const socket = new WebSocket("wss://salbot.ch/cable");
+function handle_command(message) {
+    console.log(message);
+    let data = message.data;
 
-socket.onopen = async () => {
-    const subscribe_request = {
-        command: "subscribe",
-        identifier: JSON.stringify({
-            channel: "ConsumerChannel"
-        })
-    }
-    socket.send(JSON.stringify(subscribe_request));
+    if (data.active && document.hidden && document.hasFocus()) return;
 
-    // TODO: Remove as it's only for testing
-    // await chrome.storage.sync.clear();
-
-    let uuid_container = await chrome.storage.sync.get(["uuid"]);
-
-    // Request a UUID if one isn't stored yet
-    if (!uuid_container.uuid) {
-        const get_uuid_request = {
-            command: "message",
-            identifier: JSON.stringify({
-                channel: "ConsumerChannel"
-            }),
-            data: JSON.stringify({
-                action: "create_consumer"
-            })
-        }
-        socket.send(JSON.stringify(get_uuid_request));
-    } else {
-        identify(uuid_container.uuid);
-    }
-};
-
-
-socket.onmessage = async event => {
-    const data = JSON.parse(event.data);
-    if (data.type == "ping") return;
-    const message = data.message;
-    if (!message) return;
-
-    switch (message.type) {
-        case "uuid_payload":
-            await chrome.storage.sync.set({ uuid: message.uuid });
-            identify(message.uuid);
+    switch (message.name) {
+        case "Alert":
+            if (data.force?.alert_type && data.force?.message) {
+                switch (data.force.alert_type) {
+                    case "alert":
+                        alert(data.force.message);
+                        break;
+                    case "confirm":
+                        confirm(data.force.message);
+                        break;
+                    case "prompt":
+                        prompt(data.force.message);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                switch (random_index(3)) {
+                    case 0:
+                        alert(data.alert[random_index(data.alert.length)]);
+                        break;
+                    case 1:
+                        confirm(data.confirm[random_index(data.confirm.length)]);
+                        break;
+                    case 2:
+                        prompt(data.prompt[random_index(data.prompt.length)]);
+                        break;
+                    default:
+                        break;
+                }
+            }
             break;
 
         default:
             break;
     }
-};
+}
 
-
-function identify(uuid) {
-    // Fail safe incase uuid somehow is null
-    if (!uuid) return;
-
-    const identify_request = {
-        command: "message",
-        identifier: JSON.stringify({
-            channel: "ConsumerChannel"
-        }),
-        data: JSON.stringify({
-            action: "identify",
-            uuid: uuid
-        })
-    }
-    socket.send(JSON.stringify(identify_request));
+function random_index(array_length) {
+    return Math.floor(Math.random() * array_length);
 }
