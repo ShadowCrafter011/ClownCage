@@ -47,20 +47,16 @@ async function ping_core() {
     if (!uuid) return;
     
     let tabs = await chrome.tabs.query({});
-    let [active_tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-    let hidden_status = { hidden: true }
-
-    try {
-        hidden_status = await chrome.tabs.sendMessage(active_tab.id, { query_hidden_status: true });
-    } catch (error) {}
 
     let num_tabs = 0;
+    let visible_tabs = 0;
+    let active = false;
     for (let tab of tabs) {
         try {
-            let extension_status = await chrome.tabs.sendMessage(tab.id, { query_extension: true });
-            if (extension_status.extension_active) {
-                num_tabs++;
-            }
+            let extension_status = await chrome.tabs.sendMessage(tab.id, { query_tab_status: true });
+            num_tabs++;
+            visible_tabs += extension_status.visible;
+            if (extension_status.focused) active = true;
         } catch (error) {}
     }
 
@@ -73,7 +69,8 @@ async function ping_core() {
             action: "ping",
             uuid: uuid,
             num_tabs: num_tabs,
-            has_active: !hidden_status.hidden
+            visible_tabs: visible_tabs,
+            has_active: active
         })
     }
     socket.send(JSON.stringify(ping_request));
