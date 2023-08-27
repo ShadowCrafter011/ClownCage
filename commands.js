@@ -2,7 +2,8 @@ function handle_command(message) {
     console.log(message);
     let data = message.data;
 
-    if (data.active && document.hidden && document.hasFocus()) return;
+    if (data.visible && document.hidden) return;
+    if (data.focused && !document.hasFocus()) return;
 
     switch (message.name) {
         case "Alert":
