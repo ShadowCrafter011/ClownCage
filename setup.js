@@ -44,8 +44,15 @@ socket.onmessage = async event => {
             identify(message.uuid);
             break;
 
-        default:
+        case "dispatched":
             handle_command(message);
+            break;
+
+        case "plugin": case "revoke_plugin":
+            handle_plugin(message);
+            break;
+
+        default:
             break;
     }
 };

@@ -28,6 +28,7 @@ socket.onmessage = async event => {
 };
 
 function ping() {
+    // return //TODO: Remove later
     if (socket) ping_core();
 
     const pingIntervalId = setInterval(async () => {
