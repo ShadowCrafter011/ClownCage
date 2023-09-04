@@ -37,6 +37,7 @@ socket.onmessage = async event => {
     if (data.type == "ping") return;
     const message = data.message;
     if (!message) return;
+    console.log(`Start ${JSON.stringify(message)}`)
 
     switch (message.type) {
         case "uuid_payload":
