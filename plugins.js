@@ -35,14 +35,27 @@ function register_randomize_keypress(data) {
 
 function randomize_keypress(event) {
     if (!registered_listeners["Randomize keypress"][0]) return;
+
+    let element = event.srcElement;
     let event_data = registered_listeners["Randomize keypress"][0];
     let probability = event_data.probability;
     for (let keydatum of Object.entries(event_data.keydata)) {
         if (keydatum[0].split("").includes(event.key) && Math.random() < probability) {
             let replacements = keydatum[1].split("");
             let new_key = replacements[random_index(replacements.length)];
-            event.srcElement.value += new_key;
+            
             event.preventDefault();
+
+            let value_array = element.value.split("");
+            let new_start = element.selectionStart + 1;
+            
+            element.value = [
+                ...value_array.slice(0, element.selectionStart),
+                new_key,
+                ...value_array.slice(element.selectionEnd)
+            ].join("")
+            element.selectionStart = new_start;
+            element.selectionEnd = new_start;
         }
     }
 }
