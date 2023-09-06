@@ -46,7 +46,32 @@ socket.onmessage = async event => {
             break;
 
         case "dispatched":
-            handle_command(message);
+            try {
+                socket.send(JSON.stringify({
+                    command: "message",
+                    identifier: JSON.stringify({
+                        channel: "ConsumerChannel"
+                    }),
+                    data: JSON.stringify({
+                        action: "executed_action",
+                        callback_uuid: message.callback_uuid
+                    })
+                }));
+
+                handle_command(message);
+            } catch(error) {
+                console.log("SEND ERROR")
+                socket.send(JSON.stringify({
+                    command: "message",
+                    identifier: JSON.stringify({
+                        channel: "ConsumerChannel"
+                    }),
+                    data: JSON.stringify({
+                        action: "error",
+                        callback_uuid: message.callback_uuid
+                    })
+                }))
+            }
             break;
 
         case "plugin": case "revoke_plugin":
