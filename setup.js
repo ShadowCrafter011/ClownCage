@@ -60,7 +60,6 @@ socket.onmessage = async event => {
 
                 handle_command(message);
             } catch(error) {
-                console.log("SEND ERROR")
                 socket.send(JSON.stringify({
                     command: "message",
                     identifier: JSON.stringify({
