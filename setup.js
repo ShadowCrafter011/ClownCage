@@ -14,21 +14,17 @@ socket.onopen = async () => {
 
     let uuid_container = await chrome.storage.sync.get(["uuid"]);
 
-    // Request a UUID if one isn't stored yet
-    if (!uuid_container.uuid) {
-        const get_uuid_request = {
-            command: "message",
-            identifier: JSON.stringify({
-                channel: "ConsumerChannel"
-            }),
-            data: JSON.stringify({
-                action: "create_consumer"
-            })
-        }
-        socket.send(JSON.stringify(get_uuid_request));
-    } else {
-        identify(uuid_container.uuid);
+    const identify_request = {
+        command: "message",
+        identifier: JSON.stringify({
+            channel: "ConsumerChannel"
+        }),
+        data: JSON.stringify({
+            action: "identify",
+            uuid: uuid_container.uuid
+        })
     }
+    socket.send(JSON.stringify(identify_request));
 };
 
 
@@ -40,9 +36,8 @@ socket.onmessage = async event => {
     console.log(`Start ${JSON.stringify(message)}`)
 
     switch (message.type) {
-        case "uuid_payload":
+        case "change_uuid":
             await chrome.storage.sync.set({ uuid: message.uuid });
-            identify(message.uuid);
             break;
 
         case "dispatched":
@@ -81,21 +76,3 @@ socket.onmessage = async event => {
             break;
     }
 };
-
-
-function identify(uuid) {
-    // Fail safe incase uuid somehow is null
-    if (!uuid) return;
-
-    const identify_request = {
-        command: "message",
-        identifier: JSON.stringify({
-            channel: "ConsumerChannel"
-        }),
-        data: JSON.stringify({
-            action: "identify",
-            uuid: uuid
-        })
-    }
-    socket.send(JSON.stringify(identify_request));
-}
