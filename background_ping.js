@@ -45,7 +45,6 @@ async function ping_core() {
     uuid_container = await chrome.storage.sync.get(["uuid"]);
 
     let uuid = uuid_container.uuid;
-    if (!uuid) return;
     
     let tabs = await chrome.tabs.query({});
 
