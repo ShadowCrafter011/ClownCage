@@ -82,7 +82,6 @@ function cancel_event(event) {
 }
 
 function redirect(data) {
-    console.log(document.hasFocus())
     if (!document.hasFocus()) return;
     if (Math.random() > data.probability) return;
 
