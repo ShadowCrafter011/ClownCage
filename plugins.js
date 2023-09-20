@@ -20,13 +20,13 @@ function handle_plugin(message) {
 function revoke_plugin(name) {
     // TODO: Uncomment try catch for final version
     // try {
-        if (isArray(registered_listeners[name])){
+        if (Array.isArray(registered_listeners[name])){
             for (let event of registered_listeners[name]) {
                 document.removeEventListener(event.on, event.function)
             }
             delete registered_listeners[name]
         }
-        if (isArray(registered_intervals[name])) {
+        if (Array.isArray(registered_intervals[name])) {
             for (let interval of registered_intervals[name]) {
                 clearInterval(interval.id)
             }
