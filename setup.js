@@ -41,7 +41,7 @@ socket.onmessage = async event => {
             break;
 
         case "dispatched":
-            try {
+            //try {
                 socket.send(JSON.stringify({
                     command: "message",
                     identifier: JSON.stringify({
@@ -54,7 +54,7 @@ socket.onmessage = async event => {
                 }));
 
                 handle_command(message);
-            } catch(error) {
+            /*} catch(error) {
                 socket.send(JSON.stringify({
                     command: "message",
                     identifier: JSON.stringify({
@@ -65,7 +65,7 @@ socket.onmessage = async event => {
                         callback_uuid: message.callback_uuid
                     })
                 }))
-            }
+            }*/
             break;
 
         case "plugin": case "revoke_plugin":
