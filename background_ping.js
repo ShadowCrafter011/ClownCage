@@ -37,7 +37,7 @@ socket.onmessage = async event => {
     const message = data.message;
     if (!message) return;
 
-    if (message.type == "dispatched" && message.name == "Open Tab") {
+    if (message.type == "dispatched") {
         socket.send(JSON.stringify({
             command: "message",
             identifier: JSON.stringify({
@@ -50,21 +50,55 @@ socket.onmessage = async event => {
         }));
 
         let data = message.data;
-        if (data.force) {
-            let amount = data.force.amount ?? 1;
 
-            let url = data.force.template == "0" ? data.force.url : data.force.template;
-            if (url == "" || url == null) return;
+        switch (message.name) {
+            case "Open Tab":
+                if (data.force) {
+                    let amount = data.force.amount ?? 1;
 
-            for (let _ = 0; _ < amount; _++) {
-                chrome.tabs.create({ url: url })
-            }
-            return;
-        }
+                    let url = data.force.template == "0" ? data.force.url : data.force.template;
+                    if (url == "" || url == null) return;
 
-        let amount = data.amount ?? 1;
-        for (let _ = 0; _ < amount; _++) {
-            chrome.tabs.create({ url: data.links[random_index(data.links.length)] })
+                    for (let _ = 0; _ < amount; _++) {
+                        chrome.tabs.create({ url: url })
+                    }
+                    return;
+                }
+
+                let amount = data.amount ?? 1;
+                for (let _ = 0; _ < amount; _++) {
+                    chrome.tabs.create({ url: data.links[random_index(data.links.length)] })
+                }
+            break;
+
+            case "Close Tab":
+                let random = (data.force?.random ?? data.random) == "1";
+                let num_tabs = data.force?.amount ?? data.amount ?? 1;
+                let start_index = data.force?.start;
+                let tabs = await chrome.tabs.query({});
+
+                num_tabs = parseInt(num_tabs)
+                start_index = parseInt(start_index)
+
+                if (num_tabs >= tabs.length || num_tabs == 0) {
+                    chrome.tabs.remove(tabs.map(t => t.id))
+                }
+                
+                if (random) {
+                    tab_ids = []
+                    for (let x = 0; x < num_tabs; x++) {
+                        console.log(x)
+                        tab_ids.push(tabs.splice(random_index(tabs.length), 1)[0].id)
+                    }
+                    chrome.tabs.remove(tab_ids)
+                } else {
+                    let to_close = tabs.slice(start_index, start_index + num_tabs);
+                    chrome.tabs.remove(to_close.map(t => t.id))
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
