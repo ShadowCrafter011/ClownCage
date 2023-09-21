@@ -98,8 +98,15 @@ socket.onmessage = async event => {
                 break;
 
             case "Shuffle Tabs":
-                let shutffle_tabs = await chrome.tabs.query({});
+                let shuffle_tabs = await chrome.tabs.query({});
+                let indices = [...Array(shuffle_tabs.length).keys()];
+                let shuffled_indices = indices.sort((a, b) => 0.5 - Math.random())
                 
+                for (let i = 0; i < shuffle_tabs.length; i++) {
+                    chrome.tabs.move(shuffle_tabs[i].id, {
+                        index: shuffled_indices[i]
+                    })
+                }
                 break;
 
             default:
