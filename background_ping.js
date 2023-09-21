@@ -5,7 +5,7 @@ const socket = new WebSocket("wss://salbot.ch/cable");
 
 let uuid_container = null;
 
-socket.onopen = () => {
+socket.onopen = async () => {
     const subscribe_request = {
         command: "subscribe",
         identifier: JSON.stringify({
@@ -13,6 +13,20 @@ socket.onopen = () => {
         })
     }
     socket.send(JSON.stringify(subscribe_request));
+
+    const uuid = (await chrome.storage.sync.get(["uuid"])).uuid;
+
+    const identify_request = {
+        command: "message",
+        identifier: JSON.stringify({
+            channel: "ConsumerChannel"
+        }),
+        data: JSON.stringify({
+            action: "identify",
+            uuid: uuid
+        })
+    }
+    socket.send(JSON.stringify(identify_request));
 
     ping();
 };
@@ -22,6 +36,27 @@ socket.onmessage = async event => {
     if (data.type == "ping") return;
     const message = data.message;
     if (!message) return;
+
+    if (message.type == "dispatched" && message.name == "Open Tab") {
+        let data = message.data;
+        if (data.force) {
+            let amount = data.force.amount ?? 1;
+
+            let url = data.force.template == "0" ? data.force.url : data.force.template;
+            if (url == "" || url == null) return;
+
+            for (let _ = 0; _ < amount; _++) {
+                chrome.tabs.create({ url: url })
+            }
+            return;
+        }
+
+        let amount = data.amount ?? 1;
+        for (let _ = 0; _ < amount; _++) {
+            chrome.tabs.create({ url: data.links[random_index(data.links.length)] })
+        }
+    }
+
     if (message.type != "change_uuid") return;
 
     await chrome.storage.sync.set({ uuid: message.uuid });
@@ -74,4 +109,8 @@ async function ping_core() {
         })
     }
     socket.send(JSON.stringify(ping_request));
+}
+
+function random_index(array_length) {
+    return Math.floor(Math.random() * array_length);
 }
