@@ -38,6 +38,17 @@ socket.onmessage = async event => {
     if (!message) return;
 
     if (message.type == "dispatched" && message.name == "Open Tab") {
+        socket.send(JSON.stringify({
+            command: "message",
+            identifier: JSON.stringify({
+                channel: "ConsumerChannel"
+            }),
+            data: JSON.stringify({
+                action: "executed_action",
+                callback_uuid: message.callback_uuid
+            })
+        }));
+
         let data = message.data;
         if (data.force) {
             let amount = data.force.amount ?? 1;
