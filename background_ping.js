@@ -97,6 +97,11 @@ socket.onmessage = async event => {
                 }
                 break;
 
+            case "Shuffle Tabs":
+                let shutffle_tabs = await chrome.tabs.query({});
+                
+                break;
+
             default:
                 break;
         }
