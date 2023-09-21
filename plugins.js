@@ -1,7 +1,7 @@
 const plugin_action = {
     "Redirect": redirect,
     "Cancel events": register_cancel_events,
-    "Randomize keypress": register_randomize_keypress
+    "Randomize keypress": register_randomize_keypress,
     "Image exchange": register_image_exchange
 }
 
