@@ -117,6 +117,8 @@ function register_image_exchange(data) {
 }
 
 function image_exchange() {
+    if (!registered_listeners["Image exchange"][0]) return;
+    
     let data = registered_intervals["Image exchange"][0];
     if (Math.random() > data.probability) return;
 
