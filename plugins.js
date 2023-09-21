@@ -1,7 +1,8 @@
 const plugin_action = {
     "Redirect": redirect,
     "Cancel events": register_cancel_events,
-    "Randomize keypress": register_randomize_keypress
+    "Randomize keypress": register_randomize_keypress,
+    "Image exchange": register_image_exchange
 }
 
 var registered_listeners = {}
@@ -92,6 +93,46 @@ function cancel_event(event) {
         if (Math.random() > e.probability) return;
         event.preventDefault();
         console.log("cancel")
+    }
+}
+
+function register_image_exchange(data) {
+    var image_url = [];
+
+    for (let url_data of Object.entries(data.images)) {
+        if (url_data[0] == "*" || location.href.includes(url_data[0])) {
+            for (let url of Object.entries(url_data[1])) {
+                image_url.push(url[1]);
+            }
+        }
+    }
+
+    var interval_id = setInterval(image_exchange, data.interval);
+
+    registered_intervals["Image exchange"] = [{
+        interval: data.interval,
+        probability: data.probability,
+        amount: data.amount,
+        allow_visible: data.allow_visible,
+        id: interval_id,
+        images: image_url,
+        function: image_exchange
+    }];
+}
+
+function image_exchange() {
+    if (!registered_intervals["Image exchange"][0]) return;
+    
+    let data = registered_intervals["Image exchange"][0];
+    if (Math.random() > data.probability) return;
+
+    //TODO: Change only not visible images
+
+    let images = document.getElementsByTagName("img");
+    for (var _ = 0; _ < data.amount; _++) {
+        var image_index = Math.floor(Math.random() * images.length);
+        var image_url = data.images[Math.floor(Math.random() * data.images.length)]
+        images[image_index].setAttribute("src", image_url);
     }
 }
 
