@@ -126,14 +126,30 @@ function image_exchange() {
     let data = registered_intervals["Image exchange"][0];
     if (Math.random() > data.probability) return;
 
-    //TODO: Change only not visible images
+    var images = [];
+    for (let image of document.getElementsByTagName("img")) {
+        if ((!isInViewport(image) || data.allow_visible) && !data.images.includes(image.getAttribute("src"))) {
+            images.push(image);
+        }
+    }
+    
+    if (images.length == 0) return;
 
-    let images = document.getElementsByTagName("img");
     for (var _ = 0; _ < data.amount; _++) {
         var image_index = Math.floor(Math.random() * images.length);
         var image_url = data.images[Math.floor(Math.random() * data.images.length)]
         images[image_index].setAttribute("src", image_url);
     }
+}
+
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= -rect.height &&
+        rect.left >= -rect.width &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) + rect.width
+    );
 }
 
 function redirect(data) {
