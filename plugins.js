@@ -14,8 +14,10 @@ function handle_plugin(message) {
         return revoke_plugin(message.name);
     }
     
-    let data = message.data;
-    plugin_action[message.name](data);
+    if (message.name in plugin_action) {
+        let data = message.data;
+        plugin_action[message.name](data);
+    }
 }
 
 function revoke_plugin(name) {
