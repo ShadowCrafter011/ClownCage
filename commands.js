@@ -39,6 +39,10 @@ function handle_command(message) {
                 execute_alert(data, random_index(3))
             }
             break;
+        
+        case "Print":
+            window.print();    
+            break;
 
         default:
             break;
