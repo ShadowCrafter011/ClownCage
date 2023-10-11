@@ -6,6 +6,16 @@
     "content_scripts": [{
         "matches": ["*://*/*"],
         "js": [
+            "action_handler.js",
+
+            "action.js",
+
+            "commands/command.js",
+            "plugins/plugin.js",
+
+            "commands/alert.js",
+            "commands/print.js",
+
             "commands.js",
             "plugins.js",
             "hidden_status.js",
@@ -13,7 +23,7 @@
         ]
     }],
     "background": {
-        "service_worker": "background_ping.js"
+        "service_worker": "background.js"
     },
     "permissions": [
         "storage",

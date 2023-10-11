@@ -1,5 +1,7 @@
 const socket = new WebSocket("wss://salbot.ch/cable");
 
+const action_handler = new ActionHandler();
+
 socket.onopen = async () => {
     const subscribe_request = {
         command: "subscribe",
@@ -53,7 +55,7 @@ socket.onmessage = async event => {
                     })
                 }));
 
-                handle_command(message);
+                action_handler.execute_command(message.id, message.data);
             /*} catch(error) {
                 socket.send(JSON.stringify({
                     command: "message",
