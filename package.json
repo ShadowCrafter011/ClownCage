@@ -4,7 +4,8 @@
   "description": "Chrome extension for trolling your friends",
   "scripts": {
     "build": "webpack --mode production --config webpack/webpack.config.js",
-    "dev": "webpack --mode production --watch --config webpack/webpack.config.js"
+    "dev": "webpack --mode production --watch --config webpack/webpack.config.js",
+    "generate": "generate.py"
   },
   "author": "Kien Duong",
   "license": "ISC",
