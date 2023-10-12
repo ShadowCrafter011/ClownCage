@@ -1,12 +1,11 @@
-class AlertCommand extends Command {
-    static _ = ActionHandler.derived.add(this);
-    
+import { Command } from "./command";
+
+export class AlertCommand extends Command {
     constructor() {
-        super();
-        this.id = 6;
+        super(6);
     }
 
-    execute(data) {
+    execute(data: any) {
         if (data.force?.template && data.force.template != "0") {
             let template_data = data.force.template.split("_")
             let type = template_data[0]
@@ -31,7 +30,7 @@ class AlertCommand extends Command {
         }
     }
 
-    execute_alert(data, alert_type, template_index=null) {
+    execute_alert(data: any, alert_type: number | string, template_index: number | null = null) {
         switch (alert_type) {
             case 0: case "alert":
                 alert(this.get_template(template_index, data.alert))
@@ -66,7 +65,7 @@ class AlertCommand extends Command {
         }
     }
 
-    get_template(template_index, template_array) {
+    get_template(template_index: number | null, template_array: any): any {
         if (template_index != null) return template_array[template_index]
         return template_array[this.random_index(template_array.length)]
     }

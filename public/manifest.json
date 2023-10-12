@@ -6,20 +6,7 @@
     "content_scripts": [{
         "matches": ["*://*/*"],
         "js": [
-            "action_handler.js",
-
-            "action.js",
-
-            "commands/command.js",
-            "plugins/plugin.js",
-
-            "commands/alert.js",
-            "commands/print.js",
-
-            "commands.js",
-            "plugins.js",
-            "hidden_status.js",
-            "setup.js"
+            "main.js"
         ]
     }],
     "background": {
