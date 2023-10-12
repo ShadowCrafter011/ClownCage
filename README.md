@@ -38,7 +38,7 @@ If you use the generator you'll NEVER need to update either `index.ts` files. Do
 
 If you dug around in the code you might have noticed that the `ActionHandler` is instantiated twice with context "main" and "background". This just means that some actions are run in content scripts and some in the service worker.
 
-This stems from the fact that content scripts do not have access to some powerful Chrome APIs like `chrome.tabs`. If your action needs to access those APIs message (ShadowCrafter011)[mailto:lkoe@bluewi.ch] or make the changes yourself to the [seeds.rb](https://github.com/ShadowCrafter011/ClownCageWS/blob/clowncagev2/db/seeds.rb) file of the WebSocket backend. The downside of using "background" though is that you cannot access nor interact with the DOM. To bypass this you can send a message to a content script which will execute your action. This uses the [Chrome messaging API](https://developer.chrome.com/docs/extensions/mv3/messaging/).
+This stems from the fact that content scripts do not have access to some powerful Chrome APIs like `chrome.tabs`. If your action needs to access those APIs message [ShadowCrafter011](mailto:lkoe@bluewi.ch) or make the changes yourself to the [seeds.rb](https://github.com/ShadowCrafter011/ClownCageWS/blob/clowncagev2/db/seeds.rb) file of the WebSocket backend. The downside of using "background" though is that you cannot access nor interact with the DOM. To bypass this you can send a message to a content script which will execute your action. This uses the [Chrome messaging API](https://developer.chrome.com/docs/extensions/mv3/messaging/).
 
 ### Globals
 
