@@ -1,6 +1,10 @@
 export class Action {
     constructor(public id: number) {}
 
+    random_item(array: any[]) {
+        return array[this.random_index(array.length)];
+    }
+
     random_index(array_length: number): number {
         return Math.floor(Math.random() * array_length);
     }
