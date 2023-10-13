@@ -21,7 +21,21 @@ export class ActionHandler {
     }
 
     handle(message: any): boolean {
-        if (message.context != this.context) return false;
+        if (message.context != this.context) {
+            
+            chrome.tabs.query({}).then(function(tabs: chrome.tabs.Tab[]) {
+                for (let tab of tabs) {
+                    if (!tab.id) continue;
+
+                    try {
+                        chrome.tabs.sendMessage(tab.id, message, () => chrome.runtime.lastError);
+                    } catch (error) {}
+                }
+            });
+
+            return true;
+        }
+
         const data: any = message.data;
         
         switch (message.type) {

@@ -9,7 +9,5 @@ salbot.onopen(() => {
     setInterval(() => salbot.ping(), 3000);
 });
 
-// salbot.onmessage(() => console.log("HALLO"));
-
 // Activate service worker on chrome startup
 chrome.runtime.onStartup.addListener(() => {});
