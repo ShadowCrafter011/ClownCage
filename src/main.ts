@@ -1,10 +1,12 @@
-import { Salbot } from "./socket";
 import { ActionHandler } from "./action_handler";
 
 const action_handler = new ActionHandler("main");
 
-chrome.runtime.onMessage.addListener((message) => {
+chrome.runtime.sendMessage({ type: "send_plugins" });
+
+chrome.runtime.onMessage.addListener((message) => { 
     if (message.context != "main") return;
+    console.log(message);
 
     action_handler.handle(message);
 });
