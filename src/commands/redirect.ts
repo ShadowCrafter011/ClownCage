@@ -2,12 +2,11 @@ import { Command } from "./command";
 
 export class RedirectCommand extends Command {
     constructor() {
-        super(8); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
+        super(2002); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
     }
 
     execute(data: any) {
         if (data.force?.link) {
-            console.log("WOWI")
             location.href = data.force.link;
             return;
         }

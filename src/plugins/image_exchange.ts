@@ -1,9 +1,8 @@
 import { Plugin } from "./plugin";
-import $ from "jquery";
 
 export class ImageExchangePlugin extends Plugin {
     constructor() {
-        super(4);
+        super(1003);
     }
 
     register(data: {

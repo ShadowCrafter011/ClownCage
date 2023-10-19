@@ -2,7 +2,7 @@ import { Plugin } from "./plugin";
 
 export class RandomizeKeypressPlugin extends Plugin {
     constructor() {
-        super(3);
+        super(1002);
     }
 
     register(data: any): boolean {

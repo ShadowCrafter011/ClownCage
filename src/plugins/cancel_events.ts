@@ -4,7 +4,7 @@ export class CancelEvents extends Plugin {
     cancel_probability: any;
 
     constructor() {
-        super(2);
+        super(1001);
         this.cancel_probability = {};
     }
 

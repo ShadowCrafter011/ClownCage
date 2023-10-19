@@ -2,7 +2,7 @@ import { Command } from "./command";
 
 export class CloseTabCommand extends Command {
     constructor() {
-        super(10);
+        super(2004);
     }
 
     execute(data: any) {

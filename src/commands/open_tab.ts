@@ -2,7 +2,7 @@ import { Command } from "./command";
 
 export class OpenTabCommand extends Command {
     constructor() {
-        super(9);
+        super(2003);
     }
 
     execute(data: any) {

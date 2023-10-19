@@ -2,7 +2,7 @@ import { Command } from "./command";
 
 export class AlertCommand extends Command {
     constructor() {
-        super(6);
+        super(2000);
     }
 
     execute(data: any) {

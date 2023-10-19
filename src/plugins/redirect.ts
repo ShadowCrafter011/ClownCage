@@ -2,7 +2,7 @@ import { Plugin } from "./plugin";
 
 export class RedirectPlugin extends Plugin {
     constructor() {
-        super(1);
+        super(1000);
     }
 
     register(data: any): boolean {

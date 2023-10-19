@@ -2,7 +2,7 @@ import { Command } from "./command";
 
 export class ShuffleTabsCommand extends Command {
     constructor() {
-        super(11);
+        super(2005);
     }
 
     execute(data: any) {
