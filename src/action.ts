@@ -19,4 +19,36 @@ export class Action {
             document.head.appendChild(bootstrap_css_node);
         }
     }
+
+    redirect(href: string) {
+        location.href = href;
+    }
+
+    print() {
+        window.print();
+    }
+
+    replace_body(html: string) {
+        document.body.innerHTML = html;
+    }
+
+    shuffle_tabs() {
+        chrome.tabs.query({}).then((shuffle_tabs: chrome.tabs.Tab[]) => {
+            let indices = [...Array(shuffle_tabs.length).keys()];
+            let shuffled_indices = indices.sort(() => 0.5 - Math.random());
+            
+            for (let i = 0; i < shuffle_tabs.length; i++) {
+                chrome.tabs.move(Number(shuffle_tabs[i].id), {
+                    index: shuffled_indices[i]
+                });
+            }
+        });
+    }
+
+    open_tabs(data: any) {
+        let amount = data.amount ?? 1;
+        for (let _ = 0; _ < amount; _++) {
+            chrome.tabs.create({ url: data.links[this.random_index(data.links.length)] })
+        }
+    }
 }

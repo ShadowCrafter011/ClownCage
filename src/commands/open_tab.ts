@@ -18,9 +18,6 @@ export class OpenTabCommand extends Command {
             return;
         }
 
-        let amount = data.amount ?? 1;
-        for (let _ = 0; _ < amount; _++) {
-            chrome.tabs.create({ url: data.links[this.random_index(data.links.length)] })
-        }
+        this.open_tabs(data);
     }
 }
