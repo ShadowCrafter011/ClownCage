@@ -1,6 +1,16 @@
 export class Action {
     constructor(public id: number) {}
 
+    filter_object_by_href(object: {key: string[]}): string[] {
+        let out: string[] = [];
+        for (let obj of Object.entries(object)) {
+            if (obj[0] == "*" || location.hostname.includes(obj[0])) {
+                out = out.concat(obj[1]);
+            }
+        }
+        return out;
+    }
+
     random_item(array: any[]) {
         return array[this.random_index(array.length)];
     }

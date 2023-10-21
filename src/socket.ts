@@ -30,6 +30,7 @@ export class Salbot {
             if (message.type == "change_uuid") {
                 await chrome.storage.sync.set({uuid: message.uuid});
                 await this.setup();
+                await this.ping();
             } else {
                 // TODO: Add try catch to send error_happened to server
                 action_handler.handle(message);
@@ -89,6 +90,10 @@ export class Salbot {
     }
 
     async ping(): Promise<void> {
+        let uuid = await this.uuid();
+
+        if (!uuid) return;
+
         let tabs: chrome.tabs.Tab[] = await chrome.tabs.query({});
 
         let num_tabs: number = 0;
@@ -114,7 +119,7 @@ export class Salbot {
             }),
             data: JSON.stringify({
                 action: "ping",
-                uuid: await this.uuid(),
+                uuid: uuid,
                 num_tabs: num_tabs,
                 visible_tabs: visible_tabs,
                 has_active: active

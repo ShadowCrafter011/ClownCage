@@ -11,14 +11,8 @@ export class RedirectCommand extends Command {
             return;
         }
 
-        const link_data: {[key: string]: string[]} = data.links;
-        let possible_links: string[] = [];
-
-        for (let link_datum of Object.entries(link_data)) {
-            if (link_datum[0] == "*" || location.href.includes(link_datum[0])) {
-                possible_links = possible_links.concat(link_datum[1]);
-            }
-        }
+        const link_data: {key: string[]} = data.links;
+        let possible_links: string[] = this.filter_object_by_href(link_data);
 
         location.href = this.random_item(possible_links);
     }
