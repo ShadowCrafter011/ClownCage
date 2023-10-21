@@ -8,7 +8,7 @@ export class ActionOnPlugin extends Plugin {
     register(data: any): boolean {
         var self = this;
         for (let action_on of Object.entries(data)) {
-            const f = function() { self.action(action_on[1]) };
+            const f = function(e: Event) { self.action(e, action_on[1]) };
             document.addEventListener(action_on[0], f);
             this.registered_listeners.push({on: action_on[0], function: f});
         }
@@ -23,10 +23,16 @@ export class ActionOnPlugin extends Plugin {
         return true
     }
 
-    action(data: any) {
+    action(e: any, data: any) {
         console.log(data);
         
         if (data.probability < Math.random()) return;
+
+        if ('prevent_default' in data) {
+            if (data['prevent_default']) {
+                e.preventDefault();
+            }
+        }
 
         let action : string = data.action;
 
@@ -39,6 +45,9 @@ export class ActionOnPlugin extends Plugin {
                 break;
             case 'replace_body':
                 this.replace_body(data.with);
+                break;
+            case 'play_sound':
+                this.play_sound(data.source);
                 break;
             case 'open_tabs':
                 this.open_tabs(data);

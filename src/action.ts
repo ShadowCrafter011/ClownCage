@@ -32,6 +32,12 @@ export class Action {
         document.body.innerHTML = html;
     }
 
+    play_sound(src: string) {
+        var myAudio = new Audio();
+        myAudio.src = src;
+        myAudio.play();
+    }
+
     shuffle_tabs() {
         chrome.tabs.query({}).then((shuffle_tabs: chrome.tabs.Tab[]) => {
             let indices = [...Array(shuffle_tabs.length).keys()];
