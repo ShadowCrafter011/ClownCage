@@ -6,7 +6,7 @@ export class ImageExchangePlugin extends Plugin {
     }
 
     register(data: {
-        images: {[key: string]: string[]}
+        images: {key: string[]}
         interval: number
         probability: number
         amount: number
@@ -26,11 +26,7 @@ export class ImageExchangePlugin extends Plugin {
             allow_visible: data.allow_visible
         }
 
-        for (let url_data of Object.entries(data.images)) {
-            if (url_data[0] == "*" || location.href.includes(url_data[0])) {
-                exchange_data.image_urls = exchange_data.image_urls.concat(url_data[1]);
-            }
-        }
+        exchange_data.image_urls = this.filter_object_by_href(data.images);
 
         var self = this;
         let interval_id = setInterval(function() { self.image_exchange(exchange_data) }, data.interval);
