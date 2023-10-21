@@ -1,0 +1,73 @@
+<style>
+    body{
+        overflow: hidden;
+    }
+
+    #captcha {
+        position: absolute;
+        top: 0;
+        left: 0;
+        min-width: 100vw;
+        max-width: 100vw;
+        min-height: 100vh;
+        max-height: 100vh;
+        background-color: rgba(0, 0, 0, 0.9);
+        font-size: larger;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        z-index: 10000;
+    }
+
+    #inner-captcha {
+        min-height: 80vh;
+        max-height: 80vh;
+    }
+
+    #captcha-canvas {
+        border: 2px solid white;
+        border-radius: 5px; 
+    }
+
+    #let-through {
+        background-color: #00000000;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 24px;
+        margin: 10px 0;
+        border: 2px solid white;
+        border-radius: 5px;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .hide-btn {
+        display: none;
+    }
+
+    .show-btn {
+        display: inline-block;
+    }
+</style>
+
+<div id="captcha">
+    <div id="inner-captcha" class="center">
+        <div class="text-center">
+            <h1>Beat a Bot at TikTakToe to prove that you are not a robot</h1>
+            <h1 id="hint-text">Your turn</h1>
+            <button id="let-through" class="hide-btn">I swear I'm human! Let me through</button>
+            <br>
+            <canvas id="captcha-canvas" width="420" height="420"></canvas>
+        </div>
+    </div>
+</div>

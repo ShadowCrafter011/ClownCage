@@ -17,6 +17,7 @@
     "chrome-types": "^0.1.231",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
+    "html-loader": "^4.2.0",
     "mini-css-extract-plugin": "^2.6.1",
     "node-sass": "^9.0.0",
     "require-context": "^1.1.0",
@@ -33,6 +34,7 @@
     "dotenv": "^16.0.1",
     "dotenv-webpack": "^8.0.1",
     "jquery": "^3.6.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "raw-loader": "^4.0.2"
   }
 }

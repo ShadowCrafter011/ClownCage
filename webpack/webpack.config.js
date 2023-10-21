@@ -36,6 +36,15 @@ module.exports = {
             {
                 test: /\.(jpg|jpeg|png|gif|woff|woff2|eot|ttf|svg)$/i,
                 use: "url-loader?limit=1024"
+            },
+            {
+                test: /\.html$/,
+                use: {
+                    loader: "html-loader",
+                    options: {
+                        minimize: true
+                    }
+                }
             }
         ],
     },
