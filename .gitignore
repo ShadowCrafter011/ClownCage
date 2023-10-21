@@ -1,2 +1,5 @@
-# Ignore all images because they are on the server
-images/
+# Ignore node modules
+node_modules/
+
+# Ignore built files
+dist/
