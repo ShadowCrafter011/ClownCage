@@ -75,6 +75,7 @@ export class ImageExchangePlugin extends Plugin {
 
             // TODO: Handle srcset
             images[i].setAttribute("src", image_url);
+            images[i].setAttribute("srcset", image_url);
         }
     }
 }
