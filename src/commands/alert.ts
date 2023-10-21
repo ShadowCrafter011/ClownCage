@@ -48,11 +48,11 @@ export class AlertCommand extends Command {
     
                     switch (prompt_action.otherwise.action) {
                         case "redirect":
-                            location.href = prompt_action.otherwise.to;
+                            this.redirect(prompt_action.otherwise.to);
                             break;
     
                         case "replace_body":
-                            document.body.innerHTML = prompt_action.otherwise.with;
+                            this.replace_body(prompt_action.otherwise.with);
                             break;
     
                         default:
