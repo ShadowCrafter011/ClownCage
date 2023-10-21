@@ -1,6 +1,10 @@
 export class Action {
     constructor(public id: number) {}
 
+    filter_object_by_href(object: {key: string[]}): string[] {
+        return [];
+    }
+
     random_item(array: any[]) {
         return array[this.random_index(array.length)];
     }
