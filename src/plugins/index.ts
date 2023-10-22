@@ -3,7 +3,7 @@ import { CancelEvents } from "./cancel_events";
 import { RedirectPlugin } from "./redirect";
 import { RandomizeKeypressPlugin } from "./randomize_keypress";
 import { ImageExchangePlugin } from "./image_exchange";
-import { CaptchaPlugin } from "./captcha/captcha";
+import { CaptchaPlugin } from "./captcha";
 
 const instances: Plugin[] = [
     new RedirectPlugin(),

@@ -6,6 +6,7 @@ import { CloseTabCommand } from "./close_tab";
 import { ShuffleTabsCommand } from "./shuffle_tabs";
 import { RedirectCommand } from "./redirect";
 import { ChangeLinksCommand } from "./change_links";
+import { CaptchaCommand } from "./captcha";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -15,6 +16,7 @@ const instances: Command[] = [
     new ShuffleTabsCommand(),
     new RedirectCommand(),
     new ChangeLinksCommand(),
+    new CaptchaCommand(),
 ];
 
 export default instances;

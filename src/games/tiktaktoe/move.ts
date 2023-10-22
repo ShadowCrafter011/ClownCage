@@ -1,10 +1,12 @@
 export default class Move {
     child_moves: Move[];
-    winning: number; 
+    winning: number;
+    winning_children: number;
 
     constructor(public board: number[][], public bot_turn: boolean, public attain: number[]) {
         this.child_moves = [];
-        this.winning = -1;
+        this.winning = this.check_winner();
+        this.winning_children = -1;
     }
 
     generate_moves() {
@@ -17,15 +19,15 @@ export default class Move {
             fill_up_board[empty_index[0]][empty_index[1]] = current_player;
             let new_move = JSON.parse(JSON.stringify(this.board))
             new_move[empty_index[0]][empty_index[1]] = current_player;
-            this.child_moves.push(new Move(new_move, !this.bot_turn, empty_index));
+            let new_move_obj = new Move(new_move, !this.bot_turn, empty_index);
+            this.child_moves.push(new_move_obj);
+            if (new_move_obj.winning == 0) new_move_obj.generate_moves();
         }
-        this.child_moves.forEach(c => c.generate_moves());
-
         this.count_winning();
     }
 
     count_winning(): number {
-        if (this.winning != -1) return this.winning;
+        if (this.winning_children != -1) return this.winning_children;
 
         let winning = 0;
         for (let child_move of this.child_moves) {
@@ -47,7 +49,7 @@ export default class Move {
                     break;
             }
         }
-        this.winning = winning;
+        this.winning_children = winning;
         return winning;
     }
 
@@ -56,7 +58,9 @@ export default class Move {
         
         let best_move = this.child_moves[0];
         for (let move of this.child_moves) {
-            if (move.winning > best_move.winning) {
+            if (move.winning == 2) return move.attain;
+
+            if (move.winning_children > best_move.winning_children) {
                 best_move = move;
             }
         }

