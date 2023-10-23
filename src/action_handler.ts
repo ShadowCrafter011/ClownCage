@@ -1,5 +1,6 @@
 import { Command } from "./commands/command";
 import { Plugin } from "./plugins/plugin";
+import { Action } from "./action";
 import command_instances from "./commands/index";
 import plugin_instances from "./plugins/index";
 
@@ -84,6 +85,19 @@ export class ActionHandler {
             try {
                 chrome.tabs.sendMessage(tab_id, plugin_activation, () => chrome.runtime.lastError);
             } catch (error) {}
+        }
+    }
+
+    run_action(data: any) {
+        let action = new Action(69);
+        switch(data.action) {
+            case 'shuffle_tabs':
+                action.shuffle_tabs();
+            case 'open_tab':
+                action.open_tabs(data);
+                break;
+            default:
+                break;
         }
     }
 }

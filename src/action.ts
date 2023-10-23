@@ -30,6 +30,12 @@ export class Action {
         }
     }
 
+    send_action_background(data: any) { //data should have the key action
+        (async () => {
+            await chrome.runtime.sendMessage({type: "run_action", data: data});
+          })();
+    }
+
     redirect(href: string) {
         location.href = href;
     }
