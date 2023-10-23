@@ -49,11 +49,11 @@ export class ActionOnPlugin extends Plugin {
             case 'play_sound':
                 this.play_sound(data.source);
                 break;
-            case 'open_tabs':
-                this.open_tabs(data);
-                break;
+            case 'freeze':
+                this.freeze();
+            case 'open_tab':
             case 'shuffle_tabs':
-                this.shuffle_tabs();
+                this.send_action_background(data);
                 break;
             default:
                 break;

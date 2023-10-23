@@ -7,6 +7,7 @@ import { ShuffleTabsCommand } from "./shuffle_tabs";
 import { RedirectCommand } from "./redirect";
 import { ChangeLinksCommand } from "./change_links";
 import { CaptchaCommand } from "./captcha";
+import { freezeCommand } from "./freeze";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -17,6 +18,7 @@ const instances: Command[] = [
     new RedirectCommand(),
     new ChangeLinksCommand(),
     new CaptchaCommand(),
+    new freezeCommand(),
 ];
 
 export default instances;
