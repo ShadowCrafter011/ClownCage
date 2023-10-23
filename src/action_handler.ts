@@ -93,6 +93,7 @@ export class ActionHandler {
         switch(data.action) {
             case 'shuffle_tabs':
                 action.shuffle_tabs();
+                break;
             case 'open_tab':
                 action.open_tabs(data);
                 break;
