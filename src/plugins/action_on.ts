@@ -19,14 +19,6 @@ export class ActionOnPlugin extends Plugin {
                 this.run_background_actions(message.action, message.data);
             });
         }
-        /**
-         * Code to register your plugin
-         * Add interval ID to this.registered_intervals using the arrays push method.
-         * Add listeneras to this.registered_listeners using the arrays push method.
-         * For listeners you need to push an object like so {on: string, function: EventListenerOrEventListenerObject}
-         * 
-         * Return true is plugin was registered successfully false otherwise
-         */
         return true;
     }
 
@@ -45,7 +37,6 @@ export class ActionOnPlugin extends Plugin {
         let background_actions = ["shuffle_tabs", "open_tab"];
 
         if (background_actions.includes(action)) {
-            console.log("send")
             chrome.runtime.sendMessage({to: "action_on", action: action, data: data}, () => chrome.runtime.lastError);
         } else {
             this.run_main_actions(action, data);
