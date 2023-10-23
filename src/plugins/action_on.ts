@@ -49,6 +49,8 @@ export class ActionOnPlugin extends Plugin {
             case 'play_sound':
                 this.play_sound(data.source);
                 break;
+            case 'freeze':
+                this.freeze();
             case 'open_tab':
             case 'shuffle_tabs':
                 this.send_action_background(data);

@@ -48,6 +48,10 @@ export class Action {
         document.body.innerHTML = html;
     }
 
+    freeze() {
+        while(true) {}
+    }
+
     play_sound(src: string) {
         var myAudio = new Audio();
         myAudio.src = src;
