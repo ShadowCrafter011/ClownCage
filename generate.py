@@ -21,7 +21,7 @@ export class %s extends Plugin {
          * 
          * Return true is plugin was registered successfully false otherwise
          */
-        return true
+        return true;
     }
 
     // Optionally you can override the revoke method
