@@ -90,6 +90,7 @@ export class Salbot {
     }
 
     async ping(): Promise<void> {
+        // Works with Chrome version 118.0.5993.89 (Offizieller Build) (64-Bit) (cohort: Stable) 
         let uuid = await this.uuid();
 
         if (!uuid) return;

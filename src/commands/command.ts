@@ -20,5 +20,5 @@ export class Command extends Action {
         return true;
     }
 
-    execute(data: any) {}
+    execute(data: any, context: string) {}
 }

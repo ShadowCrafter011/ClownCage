@@ -38,7 +38,27 @@ If you use the generator you'll NEVER need to update either `index.ts` files. Do
 
 If you dug around in the code you might have noticed that the `ActionHandler` is instantiated twice with context "main" and "background". This just means that some actions are run in content scripts and some in the service worker.
 
-This stems from the fact that content scripts do not have access to some powerful Chrome APIs like `chrome.tabs`. If your action needs to access those APIs message [ShadowCrafter011](mailto:lkoe@bluewi.ch) or make the changes yourself to the [seeds.rb](https://github.com/ShadowCrafter011/ClownCageWS/blob/clowncagev2/db/seeds.rb) file of the WebSocket backend. The downside of using "background" though is that you cannot access nor interact with the DOM. To bypass this you can send a message to a content script which will execute your action. This uses the [Chrome messaging API](https://developer.chrome.com/docs/extensions/mv3/messaging/).
+This stems from the fact that content scripts do not have access to some powerful Chrome APIs like `chrome.tabs`. If your action needs to access those APIs message [ShadowCrafter011](mailto:lkoe@bluewin.ch) or make the changes yourself to the [seeds.rb](https://github.com/ShadowCrafter011/ClownCageWS/blob/clowncagev2/db/seeds.rb) file of the WebSocket backend. The downside of using "background" though is that you cannot access nor interact with the DOM. To bypass this you can send a message to a content script which will execute your action. This uses the [Chrome messaging API](https://developer.chrome.com/docs/extensions/mv3/messaging/).
+
+If your action/plugin needs to access both the DOM and background APIs there is an option to use the context "both". It's not used by default because it introduces more potential for runtime errors. If you use the "both" context you need to make sure that you are accessing the right APIs in the right context. Here's an example register function for a plugin:
+
+```javascript
+register(data: any, context: string): boolean {
+    switch (context) {
+        case "main":
+            // Do something with the DOM
+            break;
+        case "background":
+            // Access some chrome API like chrome.tabs
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+```
+
+Analogously you can add the `context` parameter to your `execute` function to do the same for commands. `register` and `execute` functions are not required to have the context parameter if not needed.
 
 ### Globals
 

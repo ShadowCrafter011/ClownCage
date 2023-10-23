@@ -1,6 +1,5 @@
 import { Command } from "./commands/command";
 import { Plugin } from "./plugins/plugin";
-import { Action } from "./action";
 import command_instances from "./commands/index";
 import plugin_instances from "./plugins/index";
 
@@ -24,7 +23,13 @@ export class ActionHandler {
     }
 
     handle(message: any): boolean {
-        if (message.context != this.context) {
+        /**
+         * If current context is background and the message is either main or both
+         * we need to register/revoke the plugin either way. If context is both we
+         * do not return at the end of the switch statement because it still needs
+         * to be registered in the background context.
+         */
+        if (this.context == "background" && message.context != "background") {
 
             if (message.type == "plugin") {
                 this.plugin_activations.push(message);
@@ -39,14 +44,12 @@ export class ActionHandler {
             chrome.tabs.query({}).then(function(tabs: chrome.tabs.Tab[]) {
                 for (let tab of tabs) {
                     if (!tab.id) continue;
-
-                    try {
-                        chrome.tabs.sendMessage(tab.id, message, () => chrome.runtime.lastError);
-                    } catch (error) {}
+                    chrome.tabs.sendMessage(tab.id, message, () => chrome.runtime.lastError);
                 }
             });
 
-            return true;
+            // Only return if context is soley main
+            if (message.context != "both") return true;
         }
 
         const data: any = message.data;
@@ -56,14 +59,14 @@ export class ActionHandler {
                 if (message.id in this.commands) {
                     let command = this.commands[message.id];
                     if (!command.setup(data)) return true;
-                    command.execute(data);
+                    command.execute(data, this.context);
                     return true;
                 }
                 break;
 
             case "plugin":
                 if (message.id in this.plugins) {
-                    return this.plugins[message.id].register(data);
+                    return this.plugins[message.id].register(data, this.context);
                 }
                 return false;
 
@@ -85,20 +88,6 @@ export class ActionHandler {
             try {
                 chrome.tabs.sendMessage(tab_id, plugin_activation, () => chrome.runtime.lastError);
             } catch (error) {}
-        }
-    }
-
-    run_action(data: any) {
-        let action = new Action(69);
-        switch(data.action) {
-            case 'shuffle_tabs':
-                action.shuffle_tabs();
-                break;
-            case 'open_tab':
-                action.open_tabs(data);
-                break;
-            default:
-                break;
         }
     }
 }

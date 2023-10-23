@@ -12,7 +12,7 @@ export class RedirectPlugin extends Plugin {
         var permitted: string[] = this.filter_object_by_href(data.urls);
 
         setTimeout(() => {
-            location.href = permitted[this.random_index(permitted.length)]
+            location.href = this.random_item(permitted)
         }, data.delay);
         return true;
     }

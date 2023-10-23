@@ -5,12 +5,19 @@ export class ActionOnPlugin extends Plugin {
         super(1004); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
     }
 
-    register(data: any): boolean {
-        var self = this;
-        for (let action_on of Object.entries(data)) {
-            const f = function(e: Event) { self.action(e, action_on[1]) };
-            document.addEventListener(action_on[0], f);
-            this.registered_listeners.push({on: action_on[0], function: f});
+    register(data: any, context: string): boolean {
+        let self = this;
+        if (context == "main") {
+            for (let action_on of Object.entries(data)) {
+                const f = function(e: Event) { self.action(e, action_on[1]) };
+                document.addEventListener(action_on[0], f);
+                this.registered_listeners.push({on: action_on[0], function: f});
+            }
+        } else {
+            chrome.runtime.onMessage.addListener(message => {
+                if (message.to != "action_on") return;
+                this.run_background_actions(message.action, message.data);
+            });
         }
         /**
          * Code to register your plugin
@@ -20,7 +27,7 @@ export class ActionOnPlugin extends Plugin {
          * 
          * Return true is plugin was registered successfully false otherwise
          */
-        return true
+        return true;
     }
 
     action(e: any, data: any) {
@@ -35,28 +42,32 @@ export class ActionOnPlugin extends Plugin {
         }
 
         let action : string = data.action;
+        let background_actions = ["shuffle_tabs", "open_tab"];
 
-        switch(action) {
-            case 'redirect':
-                this.redirect(data.to);
-                break;
-            case 'print':
-                this.print();
-                break;
-            case 'replace_body':
-                this.replace_body(data.with);
-                break;
-            case 'play_sound':
-                this.play_sound(data.source);
-                break;
-            case 'freeze':
-                this.freeze();
-            case 'open_tab':
-            case 'shuffle_tabs':
-                this.send_action_background(data);
-                break;
-            default:
-                break;
+        if (background_actions.includes(action)) {
+            console.log("send")
+            chrome.runtime.sendMessage({to: "action_on", action: action, data: data}, () => chrome.runtime.lastError);
+        } else {
+            this.run_main_actions(action, data);
         }
+    }
+
+    run_background_actions(action: string, data: any) {
+        const run: {[key: string]: () => void} = {
+            "open_tab": () => this.open_tabs(data),
+            "shuffle_tabs": this.shuffle_tabs
+        };
+        run[action]();
+    }
+
+    run_main_actions(action: string, data: any) {
+        const run: {[key: string]: () => void} = {
+            "redirect": () => this.redirect(data.to),
+            "print": window.print,
+            "replace_body": () => this.replace_body(data.with),
+            "play_sound": () => this.play_sound(data.source),
+            "freeze": this.freeze
+        }
+        run[action]();
     }
 }

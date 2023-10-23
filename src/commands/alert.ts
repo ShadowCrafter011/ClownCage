@@ -26,7 +26,7 @@ export class AlertCommand extends Command {
                     break;
             }
         } else {
-            this.execute_alert(data, this.random_index(3))
+            this.execute_alert(data, this.random_index(3));
         }
     }
 

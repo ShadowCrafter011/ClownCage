@@ -10,7 +10,7 @@ export class Plugin extends Action {
         this.registered_intervals = [];
     }
 
-    register(data: any): boolean {
+    register(data: any, context: string): boolean {
         return false;
     }
 
