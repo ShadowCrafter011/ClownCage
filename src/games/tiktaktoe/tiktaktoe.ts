@@ -7,6 +7,7 @@ export class TikTakToeGame {
     done: boolean;
     users_turn: boolean;
     board: number[][];
+    old_body: JQuery<HTMLElement>;
 
     constructor() {
         this.done = false;
@@ -16,15 +17,20 @@ export class TikTakToeGame {
             [0, 0, 0],
             [0, 0, 0]
         ]
+        this.old_body = $([]);
     }
 
     start(bot_start_probability: number, ignore_already_capchaed: boolean = false) {
         if ($(document.body).data("captchaing") && !ignore_already_capchaed) return;
 
         $(document.body).data("captchaing", true);
+
+        this.old_body = $(document.body).children().clone();
+        $(document.body).children().detach();
         
+        $("body").append($("<div id='captcha'></div>"));
         const captcha = $(tiktaktoe);
-        $(document.body).children().append(captcha);
+        $("#captcha").replaceWith(captcha);
 
         // @ts-ignore
         const canvas: HTMLCanvasElement = $("#captcha-canvas").get(0);
@@ -82,7 +88,7 @@ export class TikTakToeGame {
                 hint.text("Draw! Captcha passed");
                 this.done = true;
                 setTimeout(() => {
-                    $("#captcha").remove();
+                    this.reset();
                 }, 1000);
                 return true;
 
@@ -90,7 +96,7 @@ export class TikTakToeGame {
                 hint.text("Congrats you won! Captcha passed");
                 this.done = true;
                 setTimeout(() => {
-                    $("#captcha").remove();
+                    this.reset();
                 }, 1000);
                 return true;
 
@@ -98,13 +104,21 @@ export class TikTakToeGame {
                 hint.text("You lost! Captcha failed");
                 $("#let-through").removeClass("hide-btn");
                 $("#let-through").addClass("show-btn");
-                $("#let-through").on("click", () => $("#captcha").remove());
+                $("#let-through").on("click", () => {
+                    this.reset();
+                });
                 this.done = true;
                 return false;
 
             default:
                 return false;
         }
+    }
+
+    reset() {
+        $("body").append($("<div id='body'></div>"));
+        $("#body").replaceWith(this.old_body);
+        $("#captcha").remove();
     }
 
     tiktaktoe_game(ctx: CanvasRenderingContext2D) {
