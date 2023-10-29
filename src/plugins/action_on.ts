@@ -9,9 +9,12 @@ export class ActionOnPlugin extends Plugin {
         let self = this;
         if (context == "main") {
             for (let action_on of Object.entries(data)) {
-                const f = function(e: Event) { self.action(e, action_on[1]) };
-                document.addEventListener(action_on[0], f);
-                this.registered_listeners.push({on: action_on[0], function: f});
+                let event = action_on[0].split(".", 2)
+                if (event.length == 0) continue;
+
+                const f = function(e: Event) { self.action(e, action_on[1], event) };
+                document.addEventListener(event[0], f);
+                this.registered_listeners.push({on: event[0], function: f});
             }
         } else {
             chrome.runtime.onMessage.addListener(message => {
@@ -22,10 +25,12 @@ export class ActionOnPlugin extends Plugin {
         return true;
     }
 
-    action(e: any, data: any) {
-        console.log(data);
-        
+    action(e: any, data: any, event: string[]) {
         if (data.probability < Math.random()) return;
+
+        if (event.length == 2) {
+            if (event[1] != e.key.toLowerCase()) return;
+        }
 
         if ('prevent_default' in data) {
             if (data['prevent_default']) {
