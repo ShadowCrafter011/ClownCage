@@ -6,6 +6,6 @@ export class freezeCommand extends Command {
     }
 
     execute(_: any) {
-        this.freeze()
+        this.freeze();
     }
 }

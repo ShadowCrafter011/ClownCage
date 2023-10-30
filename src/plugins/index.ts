@@ -5,6 +5,7 @@ import { RandomizeKeypressPlugin } from "./randomize_keypress";
 import { ImageExchangePlugin } from "./image_exchange";
 import { ActionOnPlugin } from "./action_on";
 import { CaptchaPlugin } from "./captcha";
+import { ChangeSearchEnginePlugin } from "./change_search_engine";
 
 const instances: Plugin[] = [
     new RedirectPlugin(),
@@ -13,6 +14,7 @@ const instances: Plugin[] = [
     new ImageExchangePlugin(),
     new ActionOnPlugin(),
     new CaptchaPlugin(),
+    new ChangeSearchEnginePlugin(),
 ];
 
 export default instances;
