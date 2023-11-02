@@ -9,6 +9,8 @@ import { ChangeLinksCommand } from "./change_links";
 import { CaptchaCommand } from "./captcha";
 import { freezeCommand } from "./freeze";
 import { PlaySoundCommand } from "./play_sound";
+import { ChangeUrlCommand } from "./change_url";
+import { AddHistoryEntryCommand } from "./add_history_entry";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -21,6 +23,8 @@ const instances: Command[] = [
     new CaptchaCommand(),
     new freezeCommand(),
     new PlaySoundCommand(),
+    new ChangeUrlCommand(),
+    new AddHistoryEntryCommand(),
 ];
 
 export default instances;
