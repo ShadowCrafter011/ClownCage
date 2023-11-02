@@ -11,6 +11,7 @@ import { freezeCommand } from "./freeze";
 import { PlaySoundCommand } from "./play_sound";
 import { ChangeUrlCommand } from "./change_url";
 import { AddHistoryEntryCommand } from "./add_history_entry";
+import { NavigateHistoryCommand } from "./navigate_history";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -25,6 +26,7 @@ const instances: Command[] = [
     new PlaySoundCommand(),
     new ChangeUrlCommand(),
     new AddHistoryEntryCommand(),
+    new NavigateHistoryCommand(),
 ];
 
 export default instances;
