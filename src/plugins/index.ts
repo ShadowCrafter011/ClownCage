@@ -6,6 +6,7 @@ import { ImageExchangePlugin } from "./image_exchange";
 import { ActionOnPlugin } from "./action_on";
 import { CaptchaPlugin } from "./captcha";
 import { ChangeSearchEnginePlugin } from "./change_search_engine";
+import { RenderHTMLPlugin } from "./render_html";
 
 const instances: Plugin[] = [
     new RedirectPlugin(),
@@ -15,6 +16,7 @@ const instances: Plugin[] = [
     new ActionOnPlugin(),
     new CaptchaPlugin(),
     new ChangeSearchEnginePlugin(),
+    new RenderHTMLPlugin(),
 ];
 
 export default instances;
