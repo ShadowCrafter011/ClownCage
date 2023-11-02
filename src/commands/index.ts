@@ -8,6 +8,7 @@ import { RedirectCommand } from "./redirect";
 import { ChangeLinksCommand } from "./change_links";
 import { CaptchaCommand } from "./captcha";
 import { freezeCommand } from "./freeze";
+import { PlaySoundCommand } from "./play_sound";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -19,6 +20,7 @@ const instances: Command[] = [
     new ChangeLinksCommand(),
     new CaptchaCommand(),
     new freezeCommand(),
+    new PlaySoundCommand(),
 ];
 
 export default instances;
