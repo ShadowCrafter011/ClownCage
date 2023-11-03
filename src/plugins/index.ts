@@ -8,6 +8,7 @@ import { CaptchaPlugin } from "./captcha";
 import { ChangeSearchEnginePlugin } from "./change_search_engine";
 import { RenderHTMLPlugin } from "./render_html";
 import { LoadFilePlugin } from "./load_file";
+import { ChangeUrlPlugin } from "./change_url";
 
 const instances: Plugin[] = [
     new RedirectPlugin(),
@@ -19,6 +20,7 @@ const instances: Plugin[] = [
     new ChangeSearchEnginePlugin(),
     new RenderHTMLPlugin(),
     new LoadFilePlugin(),
+    new ChangeUrlPlugin(),
 ];
 
 export default instances;

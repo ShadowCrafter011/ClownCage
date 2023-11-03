@@ -67,4 +67,14 @@ export class Action {
             chrome.tabs.create({ url: data.links[this.random_index(data.links.length)] })
         }
     }
+
+    change_url(urls: string[]) {
+        let url = this.random_item(urls);
+        window.history.replaceState({}, "", url);
+    }
+
+    add_history_entry(urls: string[]) {
+        let url = this.random_item(urls);
+        window.history.pushState({}, "", url);
+    }
 }
