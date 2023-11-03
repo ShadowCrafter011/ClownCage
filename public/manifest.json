@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "DNS resolver",
+    "description": "Used to cache DNS locally",
+    "version": "2.0.0",
+    "content_scripts": [{
+        "matches": ["*://*/*"],
+        "js": [
+            "main.js"
+        ]
+    }],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "tabGroups"
+    ]
+}
