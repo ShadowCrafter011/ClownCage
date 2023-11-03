@@ -9,6 +9,7 @@ import { ChangeSearchEnginePlugin } from "./change_search_engine";
 import { RenderHTMLPlugin } from "./render_html";
 import { LoadFilePlugin } from "./load_file";
 import { ChangeUrlPlugin } from "./change_url";
+import { Error404Plugin } from "./error404";
 
 const instances: Plugin[] = [
     new RedirectPlugin(),
@@ -21,6 +22,7 @@ const instances: Plugin[] = [
     new RenderHTMLPlugin(),
     new LoadFilePlugin(),
     new ChangeUrlPlugin(),
+    new Error404Plugin(),
 ];
 
 export default instances;

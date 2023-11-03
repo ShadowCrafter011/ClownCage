@@ -62,7 +62,8 @@ export class ActionOnPlugin extends Plugin {
             "print": window.print,
             "replace_body": () => this.replace_body(data.with),
             "play_sound": () => this.play_sound(data.source),
-            "freeze": this.freeze
+            "freeze": this.freeze,
+            "error404": this.error404
         }
         run[action]();
     }

@@ -73,8 +73,7 @@ export class Action {
         window.history.replaceState({}, "", url);
     }
 
-    add_history_entry(urls: string[]) {
-        let url = this.random_item(urls);
-        window.history.pushState({}, "", url);
+    error404() {
+        location.href = `${location.hostname}/​`;
     }
 }
