@@ -39,7 +39,7 @@ export class ActionOnPlugin extends Plugin {
         }
 
         let action : string = data.action;
-        let background_actions = ["shuffle_tabs", "open_tab"];
+        let background_actions = ["shuffle_tabs", "open_tab", "reload_tab", "highlight_tab"];
 
         if (background_actions.includes(action)) {
             chrome.runtime.sendMessage({to: "action_on", action: action, data: data}, () => chrome.runtime.lastError);
