@@ -51,7 +51,8 @@ export class ActionOnPlugin extends Plugin {
     run_background_actions(action: string, data: any) {
         const run: {[key: string]: () => void} = {
             "open_tab": () => this.open_tabs(data),
-            "shuffle_tabs": this.shuffle_tabs
+            "shuffle_tabs": this.shuffle_tabs,
+            "reload_tab": this.reload
         };
         run[action]();
     }

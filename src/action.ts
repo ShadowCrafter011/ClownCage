@@ -76,4 +76,8 @@ export class Action {
     error404() {
         location.href = `${location.hostname}/​`;
     }
+
+    reload() {
+        chrome.tabs.reload();
+    }
 }
