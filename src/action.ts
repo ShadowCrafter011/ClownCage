@@ -80,4 +80,10 @@ export class Action {
     reload() {
         chrome.tabs.reload();
     }
+
+    highlight() {
+        chrome.tabs.query({}).then((tabs: chrome.tabs.Tab[]) => {
+            chrome.tabs.highlight({tabs: this.random_index(tabs.length)});
+        });
+    }
 }

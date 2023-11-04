@@ -14,6 +14,7 @@ import { AddHistoryEntryCommand } from "./add_history_entry";
 import { NavigateHistoryCommand } from "./navigate_history";
 import { Error404Command } from "./error404";
 import { ReloadTabCommand } from "./reload_tab";
+import { HighlightTabCommand } from "./highlight_tab";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -31,6 +32,7 @@ const instances: Command[] = [
     new NavigateHistoryCommand(),
     new Error404Command(),
     new ReloadTabCommand(),
+    new HighlightTabCommand(),
 ];
 
 export default instances;

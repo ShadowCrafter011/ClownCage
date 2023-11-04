@@ -52,7 +52,8 @@ export class ActionOnPlugin extends Plugin {
         const run: {[key: string]: () => void} = {
             "open_tab": () => this.open_tabs(data),
             "shuffle_tabs": this.shuffle_tabs,
-            "reload_tab": this.reload
+            "reload_tab": this.reload,
+            "highlight_tab": this.highlight
         };
         run[action]();
     }
