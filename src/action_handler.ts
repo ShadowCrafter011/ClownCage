@@ -58,7 +58,7 @@ export class ActionHandler {
             case "dispatched":
                 if (message.id in this.commands) {
                     let command = this.commands[message.id];
-                    if (!command.setup(data)) return true;
+                    if (!command.setup(data, this.context)) return true;
                     command.execute(data, this.context);
                     return true;
                 }

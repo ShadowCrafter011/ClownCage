@@ -5,7 +5,7 @@ export class ReloadTabCommand extends Command {
         super(2014); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
     }
 
-    execute(data: any) {
-        this.reload();
+    execute(_: any) {
+        chrome.tabs.reload();
     }
 }

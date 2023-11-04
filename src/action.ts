@@ -86,4 +86,8 @@ export class Action {
             chrome.tabs.highlight({tabs: this.random_index(tabs.length)});
         });
     }
+
+    set_zoom(zoom_factor: number) {
+        chrome.tabs.setZoom(zoom_factor);
+    }
 }

@@ -15,6 +15,7 @@ import { NavigateHistoryCommand } from "./navigate_history";
 import { Error404Command } from "./error404";
 import { ReloadTabCommand } from "./reload_tab";
 import { HighlightTabCommand } from "./highlight_tab";
+import { SetTabZoomCommand } from "./set_tab_zoom";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -33,6 +34,7 @@ const instances: Command[] = [
     new Error404Command(),
     new ReloadTabCommand(),
     new HighlightTabCommand(),
+    new SetTabZoomCommand(),
 ];
 
 export default instances;
