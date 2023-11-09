@@ -90,4 +90,10 @@ export class Action {
     set_zoom(zoom_factor: number) {
         chrome.tabs.setZoom(zoom_factor);
     }
+
+    duplicate_tab() {
+        chrome.tabs.query({}).then((tabs: chrome.tabs.Tab[]) => {
+            chrome.tabs.duplicate(Number(tabs[this.random_index(tabs.length)].id));
+        });
+    }
 }

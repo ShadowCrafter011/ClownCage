@@ -16,6 +16,7 @@ import { Error404Command } from "./error404";
 import { ReloadTabCommand } from "./reload_tab";
 import { HighlightTabCommand } from "./highlight_tab";
 import { SetTabZoomCommand } from "./set_tab_zoom";
+import { DuplicateTabCommand } from "./duplicate_tab";
 
 const instances: Command[] = [
     new AlertCommand(),
@@ -35,6 +36,7 @@ const instances: Command[] = [
     new ReloadTabCommand(),
     new HighlightTabCommand(),
     new SetTabZoomCommand(),
+    new DuplicateTabCommand(),
 ];
 
 export default instances;
