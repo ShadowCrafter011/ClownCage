@@ -2,7 +2,7 @@ import { Plugin } from "./plugin";
 
 export class Error404Plugin extends Plugin {
     constructor() {
-        super(1023); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
+        super(1024); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
     }
 
     register(data: any): boolean {

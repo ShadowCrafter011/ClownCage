@@ -10,6 +10,7 @@ import { RenderHTMLPlugin } from "./render_html";
 import { LoadFilePlugin } from "./load_file";
 import { ChangeUrlPlugin } from "./change_url";
 import { Error404Plugin } from "./error404";
+import { ActionIntervalPlugin } from "./action_interval";
 
 const instances: Plugin[] = [
     new RedirectPlugin(),
@@ -23,6 +24,7 @@ const instances: Plugin[] = [
     new LoadFilePlugin(),
     new ChangeUrlPlugin(),
     new Error404Plugin(),
+    new ActionIntervalPlugin(),
 ];
 
 export default instances;
