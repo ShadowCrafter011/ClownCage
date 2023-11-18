@@ -9,7 +9,7 @@ export class Plugin extends Action {
         super(id);
         this.registered_listeners = [];
         this.registered_intervals = [];
-        this.background_actions = ["shuffle_tabs", "open_tab", "reload_tab", "highlight_tab", "duplicate_tab"];
+        this.background_actions = ["shuffle_tabs", "open_tab", "reload_tab", "highlight_tab", "duplicate_tab", "set_zoom"];
     }
 
     register(data: any, context: string): boolean {

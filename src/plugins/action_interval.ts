@@ -35,7 +35,7 @@ export class ActionIntervalPlugin extends Plugin {
         let action : string = data.action;
 
         if (this.background_actions.includes(action)) {
-            chrome.runtime.sendMessage({to: "action_on", action: action, data: data}, () => chrome.runtime.lastError);
+            chrome.runtime.sendMessage({to: "action_interval", action: action, data: data}, () => chrome.runtime.lastError);
         } else {
             this.run_main_actions(action, data);
         }
