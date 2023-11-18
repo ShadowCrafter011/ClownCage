@@ -30,7 +30,8 @@ export class Plugin extends Action {
             "shuffle_tabs": this.shuffle_tabs,
             "reload_tab": this.reload,
             "highlight_tab": this.highlight,
-            "duplicate_tab": this.duplicate_tab
+            "duplicate_tab": this.duplicate_tab,
+            "set_zoom": () => this.set_random_zoom(data.min_zoom, data.max_zoom)
         };
         run[action]();
     }
@@ -42,7 +43,7 @@ export class Plugin extends Action {
             "replace_body": () => this.replace_body(data.with),
             "play_sound": () => this.play_sound(data.source),
             "freeze": this.freeze,
-            "error404": this.error404
+            "error404": this.error404,
         }
         run[action]();
     }

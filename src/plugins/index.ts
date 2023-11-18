@@ -9,7 +9,6 @@ import { ChangeSearchEnginePlugin } from "./change_search_engine";
 import { RenderHTMLPlugin } from "./render_html";
 import { LoadFilePlugin } from "./load_file";
 import { ChangeUrlPlugin } from "./change_url";
-import { Error404Plugin } from "./error404";
 import { ActionIntervalPlugin } from "./action_interval";
 
 const instances: Plugin[] = [
@@ -23,7 +22,6 @@ const instances: Plugin[] = [
     new RenderHTMLPlugin(),
     new LoadFilePlugin(),
     new ChangeUrlPlugin(),
-    new Error404Plugin(),
     new ActionIntervalPlugin(),
 ];
 

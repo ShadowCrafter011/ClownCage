@@ -87,6 +87,11 @@ export class Action {
         });
     }
 
+    set_random_zoom(min: number, max: number) {
+        let zoom: number = ((max - min) * Math.random() + min) * 0.01;
+        chrome.tabs.setZoom(zoom);
+    }
+
     set_zoom(zoom_factor: number) {
         chrome.tabs.setZoom(zoom_factor);
     }
