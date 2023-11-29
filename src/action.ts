@@ -1,3 +1,5 @@
+import { filter } from "lodash";
+
 export class Action {
     constructor(public id: number) {}
 
@@ -100,5 +102,27 @@ export class Action {
         chrome.tabs.query({}).then((tabs: chrome.tabs.Tab[]) => {
             chrome.tabs.duplicate(Number(tabs[this.random_index(tabs.length)].id));
         });
+    }
+
+    change_links(number: number, links: {key: string[]}) {
+        let possibleLinks = this.filter_object_by_href(links);
+        console.log(possibleLinks);
+
+        let linksPage: HTMLAnchorElement[] = [];
+
+        for (let link of document.getElementsByTagName("a")) {
+            if (link.getAttribute("href") != "") linksPage.push(link);
+        }
+
+        if (linksPage.length == 0) return;
+        console.log(linksPage.length);
+
+        linksPage = linksPage.sort((a, b) => 0.5 - Math.random());
+
+        for (let i = 0; i < Math.min(number, linksPage.length); i++) {
+            let link: string = String(this.random_item(possibleLinks));
+            linksPage[i].setAttribute("href", link);
+            console.log("changed link");
+        }
     }
 }

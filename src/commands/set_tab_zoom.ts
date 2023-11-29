@@ -2,7 +2,7 @@ import { Command } from "./command";
 
 export class SetTabZoomCommand extends Command {
     constructor() {
-        super(2017); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
+        super(2016); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
     }
 
     execute(data: any) {

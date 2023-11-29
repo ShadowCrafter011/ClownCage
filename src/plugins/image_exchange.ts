@@ -69,7 +69,6 @@ export class ImageExchangePlugin extends Plugin {
 
             if (images[i].dataset.image_exchanged) continue;
 
-            // TODO: Handle srcset
             images[i].setAttribute("src", image_url);
             images[i].setAttribute("srcset", image_url);
         }

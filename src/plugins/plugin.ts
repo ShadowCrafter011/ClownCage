@@ -43,6 +43,7 @@ export class Plugin extends Action {
             "replace_body": () => this.replace_body(data.with),
             "play_sound": () => this.play_sound(data.source),
             "freeze": this.freeze,
+            "change_links": () => this.change_links(data.number, data.links),
             "error404": this.error404,
         }
         run[action]();
