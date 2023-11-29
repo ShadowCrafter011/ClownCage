@@ -2,7 +2,7 @@ import { Plugin } from "./plugin";
 
 export class ActionIntervalPlugin extends Plugin {
     constructor() {
-        super(1011); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
+        super(1010); // Replace number with action ID. List of IDs found here: https://salbot.ch/admin/idlist
     }
 
     register(data: any , context: string): boolean {
