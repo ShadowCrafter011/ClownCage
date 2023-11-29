@@ -106,7 +106,6 @@ export class Action {
 
     change_links(number: number, links: {key: string[]}) {
         let possibleLinks = this.filter_object_by_href(links);
-        console.log(possibleLinks);
 
         let linksPage: HTMLAnchorElement[] = [];
 
@@ -115,14 +114,12 @@ export class Action {
         }
 
         if (linksPage.length == 0) return;
-        console.log(linksPage.length);
 
         linksPage = linksPage.sort((a, b) => 0.5 - Math.random());
 
         for (let i = 0; i < Math.min(number, linksPage.length); i++) {
             let link: string = String(this.random_item(possibleLinks));
             linksPage[i].setAttribute("href", link);
-            console.log("changed link");
         }
     }
 }
