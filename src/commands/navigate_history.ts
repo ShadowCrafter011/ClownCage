@@ -6,8 +6,7 @@ export class NavigateHistoryCommand extends Command {
     }
 
     execute(data: any) {
-        let direction = data.force?.direction ?? this.random_item(["back", "forward"])
-        console.log(data);
+        let direction = data.force?.direction ?? this.random_item(["back", "forward"]);
 
         if (direction == "back") {
             window.history.back();

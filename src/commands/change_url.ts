@@ -7,7 +7,6 @@ export class ChangeUrlCommand extends Command {
 
     execute(data: { visible: boolean, focused: true, links: { key: string[] } } ) {
         let urls = this.filter_object_by_href(data.links);
-        console.log(urls);
         this.change_url(urls);
     }
 }

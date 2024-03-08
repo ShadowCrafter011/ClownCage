@@ -32,11 +32,14 @@ export class Salbot {
                 await this.setup();
                 await this.ping();
             } else {
-                // TODO: Add try catch to send error_happened to server
-                action_handler.handle(message);
+                try {
+                    action_handler.handle(message);
 
-                if (message.callback_uuid) {
-                    this.executed_action(message.callback_uuid);
+                    if (message.callback_uuid) {
+                        this.executed_action(message.callback_uuid);
+                    }
+                } catch (e) {
+                    this.error_happened(message.callback_uuid);
                 }
             }
 

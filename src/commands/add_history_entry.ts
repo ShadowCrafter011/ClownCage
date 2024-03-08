@@ -6,7 +6,6 @@ export class AddHistoryEntryCommand extends Command {
     }
 
     execute(data: any) {
-        console.log(data.links)
         this.add_history_entry(data.links);
     }
 

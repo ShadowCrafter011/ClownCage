@@ -8,8 +8,9 @@
     "generate": "generate.py",
     "generate_mac": "./generate.py"
   },
-  "author": "Kien Duong",
-  "license": "ISC",
+  "author": "Lukas Köllner",
+  "contributors": ["Matthieu Cottet"],
+  "license": "MIT",
   "devDependencies": {
     "@types/chrome": "^0.0.193",
     "@types/jquery": "^3.5.14",
