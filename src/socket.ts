@@ -5,15 +5,20 @@ export class Salbot {
     message_callbacks: Function[];
     open_callbacks: Function[];
     action_handler: ActionHandler;
+    ping_interval: NodeJS.Timeout | null;
 
     constructor(action_handler: ActionHandler) {
         this.websocket = new WebSocket("wss://salbot.ch/cable");
         this.message_callbacks = [];
         this.open_callbacks = [];
         this.action_handler = action_handler;
+        this.ping_interval = null;
 
         this.websocket.onopen = async () => {
             await this.setup();
+
+            this.ping();
+            this.ping_interval = setInterval(this.ping.bind(this), 1000);
 
             for (let callback of this.open_callbacks) {
                 callback();
@@ -49,6 +54,10 @@ export class Salbot {
         };
     }
 
+    close(): void {
+        if (this.ping_interval) clearInterval(this.ping_interval);
+    }
+
     get socket(): WebSocket {
         return this.websocket;
     }
@@ -67,7 +76,7 @@ export class Salbot {
     }
 
     executed_action(callback_uuid: string) {
-        this.websocket.send(JSON.stringify({
+        this.send(JSON.stringify({
             command: "message",
             identifier: JSON.stringify({
                 channel: "ConsumerChannel"
@@ -80,7 +89,7 @@ export class Salbot {
     }
 
     error_happened(callback_uuid: string) {
-        this.websocket.send(JSON.stringify({
+        this.send(JSON.stringify({
             command: "message",
             identifier: JSON.stringify({
                 channel: "ConsumerChannel"
@@ -129,7 +138,7 @@ export class Salbot {
                 has_active: active
             })
         }
-        this.websocket.send(JSON.stringify(ping_request));
+        this.send(JSON.stringify(ping_request));
     }
 
     async setup(): Promise<void> {
@@ -139,7 +148,7 @@ export class Salbot {
                 channel: "ConsumerChannel"
             })
         }
-        this.websocket.send(JSON.stringify(subscribe_request));
+        this.send(JSON.stringify(subscribe_request));
 
         const identify_request = {
             command: "message",
@@ -151,6 +160,12 @@ export class Salbot {
                 uuid: await this.uuid()
             })
         }
-        this.websocket.send(JSON.stringify(identify_request));
+        this.send(JSON.stringify(identify_request));
+    }
+
+    async send(message: string): Promise<void> {
+        if (this.websocket.readyState === WebSocket.OPEN) {
+            this.websocket.send(message);
+        }
     }
 }
