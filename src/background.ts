@@ -7,7 +7,7 @@ let salbot = new Salbot(action_handler);
 setInterval(check_websocket, 1000);
 
 function check_websocket() {
-    if (salbot.websocket.readyState === WebSocket.CLOSED) {
+    if (!salbot.websocket || salbot.websocket.readyState === WebSocket.CLOSED) {
         salbot.close();
         salbot = new Salbot(action_handler);
     }

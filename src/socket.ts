@@ -1,18 +1,24 @@
 import { ActionHandler } from "./action_handler";
 
 export class Salbot {
-    websocket: WebSocket;
+    websocket: WebSocket | null;
     message_callbacks: Function[];
     open_callbacks: Function[];
     action_handler: ActionHandler;
     ping_interval: NodeJS.Timeout | null;
 
     constructor(action_handler: ActionHandler) {
-        this.websocket = new WebSocket("wss://salbot.ch/cable");
+        try {
+            this.websocket = new WebSocket("wss://salbot.ch/cable");
+        } catch (e) {
+            this.websocket = null;
+        }
         this.message_callbacks = [];
         this.open_callbacks = [];
         this.action_handler = action_handler;
         this.ping_interval = null;
+
+        if (!this.websocket) return;
 
         this.websocket.onopen = async () => {
             await this.setup();
@@ -58,7 +64,7 @@ export class Salbot {
         if (this.ping_interval) clearInterval(this.ping_interval);
     }
 
-    get socket(): WebSocket {
+    get socket(): WebSocket | null {
         return this.websocket;
     }
 
@@ -164,8 +170,12 @@ export class Salbot {
     }
 
     async send(message: string): Promise<void> {
-        if (this.websocket.readyState === WebSocket.OPEN) {
-            this.websocket.send(message);
-        }
+        if (!this.websocket) return;
+
+        try {
+            if (this.websocket.readyState === WebSocket.OPEN) {
+                this.websocket.send(message);
+            }
+        } catch (e) {}
     }
 }
